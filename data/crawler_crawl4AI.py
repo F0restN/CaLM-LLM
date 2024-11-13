@@ -78,7 +78,7 @@ async def crawl_crawl4ai(url: str):
             # extraction_strategy=json_css_strategy,
             exclude_external_links=True,
             exclude_external_images=True,
-            excluded_tag=['meta', 'script', 'style'],
+            excluded_tag=['meta', 'style'],
             bypass_cache=True
         )
 
@@ -97,9 +97,9 @@ async def crawl_crawl4ai(url: str):
 
         return result
 
-# if __name__ == "__main__":
-#     result = asyncio.run(crawl_crawl4ai(url))
-#     # persist the result to a markdown file
-#     if result:
-#         with open(output_dir + "/result_" + time.strftime("%Y_%m_%d-%H_%M_%S") + ".md", "w") as f:
-#             f.write(result.markdown)
+if __name__ == "__main__":
+    result = asyncio.run(crawl_crawl4ai("https://pmc.ncbi.nlm.nih.gov/articles/PMC11320145/"))
+    # persist the result to a markdown file
+    if result:
+        with open(output_dir + "/web_scrape_result_" + time.strftime("%Y_%m_%d-%H_%M_%S") + ".md", "w", encoding='utf-8') as f:
+            f.write(result.markdown)

@@ -189,12 +189,12 @@ ADNI - AD Neuroimaging Initiative; OASIS - Open Access Series of Imaging Studies
 
 This study uses both image normalization and enhancement methods. Images are improved by using image filtering techniques, including kernel-based sharpening. Additionally, to guarantee uniformity across all photos, global normalization is used as the normalization step. To improve the sharpness and definition of an image's edges and details, a technique known as “kernel-based sharpening” is used. When the filter and the image are combined, the high-frequency elements of the image are amplified. Using a high-pass filter, it is possible to enhance high-frequency elements of an image. With the use of this filter, the low-frequency details in the image are carefully removed because they could contribute to blurriness or lack of sharpness, leaving only the high-frequency details. The image is thus crisper and more detailed. The high-pass filter or kernel is created using a mathematical model called the Laplacian. The second derivative of a function in a multidimensional space is described by the Laplacian operator. The Laplacian operator is discretized and approximated as a convolution kernel to create the kernel. The Laplacian equation serves as the basis for the kernel design. After that, the high-pass filter is implemented using this kernel. The generated kernel is then used with convolution to enhance high-frequency edges and features. Mathematically, the Laplacian model for FDG-PET and sMRI is shown in Equations [(1)](#fm0010) and [(2)](#fm0020).
 
-FDG−PET′(n,m)=FDG−PET(n,m)−[Hfdg−pet(n,m)⁎FDG−PET(n,m)] | (1)  
----|---  
-sMRI′(n,m)=sMRI(n,m)−[Hsmri(n,m)⁎sMRI(n,m)] | (2)  
----|---  
+(1)  
+---  
+(2)  
+---  
   
-where FDG−PET′(n,m) and sMRI′(n,m) indicate the target image of FDG-PET and the target image of sMRI, respectively, while FDG−PET(n,m) and sMRI(n,m) represents FDG-PET source image (enhanced image) and the sMRI source image (enhanced image), respectively. The high pass filter kernel for FDG-PET and sMRI is indicated by Hfdg−pet(n,m) and Hsmri(n,m), respectively, while ⁎ denotes a 2D convolution operation. Hsmri(n,m), Hfdg−pet(n,m) is given by [−1,−1,−1],[−1,9,−1],[−1,−1,−1]. The Laplacian kernel is a 3x3 filter with a center weight of 9 and surrounding weights of -1. High Pass Filters are applied to the FDG-PET and sMRI images, respectively, with the purpose of improving the high-frequency components while attenuating the low-frequency components. By convolving the original images with these high-pass filters, the fine details and edges within the images are emphasized, leading to improved image quality. Although there may indeed be visual similarities between kernel-based sharpening and standard windowing of contrasts, the underlying mechanisms and outcomes of these techniques diverge significantly. Kernel-based sharpening involves the application of advanced image processing algorithms that improve local details and edges by adjusting the pixel intensities based on neighboring information [[55]](#br0550), [[56]](#br0560). On the other hand, standard windowing primarily focuses on adjusting the image's brightness and contrast levels within specific intensity ranges to highlight specific features. [Fig. 2](#fg0020) shows the original image and enhanced image for MRI and PET. Metrics such as the Peak Signal-to-Noise Ratio PSNR, SSIM, and MSE are employed to assess the improved and fused image quality. The combination of these parameters allowed us to fully evaluate the image quality. The quality of the images improves as the PSNR increases. The similarity between the two images is measured by SSIM. The quality of the image improves as the SSIM number approaches 1. The average squared difference between the base image and the enhanced image is what MSE calculates. The quality of the image improves with decreasing MSE.
+where and indicate the target image of FDG-PET and the target image of sMRI, respectively, while and represents FDG-PET source image (enhanced image) and the sMRI source image (enhanced image), respectively. The high pass filter kernel for FDG-PET and sMRI is indicated by and , respectively, while ⁎ denotes a 2D convolution operation. , is given by . The Laplacian kernel is a 3x3 filter with a center weight of 9 and surrounding weights of -1. High Pass Filters are applied to the FDG-PET and sMRI images, respectively, with the purpose of improving the high-frequency components while attenuating the low-frequency components. By convolving the original images with these high-pass filters, the fine details and edges within the images are emphasized, leading to improved image quality. Although there may indeed be visual similarities between kernel-based sharpening and standard windowing of contrasts, the underlying mechanisms and outcomes of these techniques diverge significantly. Kernel-based sharpening involves the application of advanced image processing algorithms that improve local details and edges by adjusting the pixel intensities based on neighboring information [[55]](#br0550), [[56]](#br0560). On the other hand, standard windowing primarily focuses on adjusting the image's brightness and contrast levels within specific intensity ranges to highlight specific features. [Fig. 2](#fg0020) shows the original image and enhanced image for MRI and PET. Metrics such as the Peak Signal-to-Noise Ratio PSNR, SSIM, and MSE are employed to assess the improved and fused image quality. The combination of these parameters allowed us to fully evaluate the image quality. The quality of the images improves as the PSNR increases. The similarity between the two images is measured by SSIM. The quality of the image improves as the SSIM number approaches 1. The average squared difference between the base image and the enhanced image is what MSE calculates. The quality of the image improves with decreasing MSE.
 
 #### Figure 2.
 
@@ -210,12 +210,12 @@ LP functions at multiple scales and resolutions and is a very efficient image pr
 
 A neural network known as SPCNN is used during the merging process of sMRI and FDG-PET images. This network is built to help neurons communicate with pulsed signals. The SPCNN can successfully blend data from numerous images to obtain a more complete and accurate output [[61]](#br0610). The network consists of neurons, each of which might represent a pixel of the input images. The pulsed signals of the neurons, which are delivered to the matching pixels, carry the information communicated between them. As a result, the network can analyze visual data by looking at patterns in pulsed signals. Pulsed neural coupling networks are frequently used in numerous tasks, including image segmentation, pattern recognition, target categorization, and image fusion [[60]](#br0600). The feedback network in the pulsed neural coupling network model is made up of several neurons coupled in a single layer [[62]](#br0620). Equations [(3)](#fm0030) and [(4)](#fm0040) mathematically express the pulsed neural coupling network that consists of two matrices. This network incorporates the neural connection process and functions in a pulsed manner.
 
-a(k,l)=m(k,l)+β⁎[b(k−1,y)+b(k+1,y)+b(k,l−1)+b(k,l+1)] | (3)  
----|---  
-bnew(k,l)=bold(k,l)⁎exp(θ)+a(k,l)⁎[1−exp(θ)] | (4)  
----|---  
+(3)  
+---  
+(4)  
+---  
   
-where: a(k,l) and bnew(k,l) =output images obtained after each iteration of the algorithm, bold(k,l) =the current output image obtained before next iteration of the algorithm., m(k,l) = source image from GLP, _a_ and _b_ = matrix which are initially zeros, _k_ and _l_ = spatial coordinates of the image _β_ =decay factor _θ_ = threshold value. _exp_ = exponential function. The matrices a and b have the same size as the input image, that is, each element in these matrices corresponds to a pixel in the input image. These matrices are updated at each iteration based on equation [(3)](#fm0030) and [(4)](#fm0040) respectively. Equation [(4)](#fm0040) involves a recursive step in which b (k, l) appears on both sides of the equation because the new value of the function is calculated based on the initial value. Equation [(4)](#fm0040) is a recursive definition for updating the values of the output image b (k,l). On the left-hand side,b (k,l) represents the current value of the pixel at coordinates k,l in the output image b. The right-hand side of the equation calculates a new value for b (k,l) based on its current value and other factors. Each pixel's value is recursively updated based on its current value, which helps refine and enhance features in the output image across multiple iterations of the algorithm. Equations [(3)](#fm0030) and [(4)](#fm0040) are applied iteratively to produce the final fused image.
+where: and =output images obtained after each iteration of the algorithm, =the current output image obtained before next iteration of the algorithm., = source image from GLP, _a_ and _b_ = matrix which are initially zeros, _k_ and _l_ = spatial coordinates of the image _β_ =decay factor _θ_ = threshold value. _exp_ = exponential function. The matrices a and b have the same size as the input image, that is, each element in these matrices corresponds to a pixel in the input image. These matrices are updated at each iteration based on equation [(3)](#fm0030) and [(4)](#fm0040) respectively. Equation [(4)](#fm0040) involves a recursive step in which b (k, l) appears on both sides of the equation because the new value of the function is calculated based on the initial value. Equation [(4)](#fm0040) is a recursive definition for updating the values of the output image b (k,l). On the left-hand side,b (k,l) represents the current value of the pixel at coordinates k,l in the output image b. The right-hand side of the equation calculates a new value for b (k,l) based on its current value and other factors. Each pixel's value is recursively updated based on its current value, which helps refine and enhance features in the output image across multiple iterations of the algorithm. Equations [(3)](#fm0030) and [(4)](#fm0040) are applied iteratively to produce the final fused image.
 
 ### 4.4. MRI and PET image fusion
 
@@ -229,7 +229,7 @@ Outcome of Gaussian Laplacian pyramid methods.
 
 ### 4.5. Augmentation
 
-A set of image transformations [[63]](#br0630), was applied to the sMRI, FDG-PET, to increase the data set. The applied transformations were implemented using the PyTorch ‘transforms’ module, which provides a range of image manipulation. The following transformations were used: RandomRotation(45) rotates the image by a degree between -45 and +45 degrees, RandomHorizotalFlip(p=0.5) flips the image horizontally at random with a probability of 0.5, and RandomVerticalFlip(p=0.5) randomly flips the image vertically with a probability of 0.5.
+A set of image transformations [[63]](#br0630), was applied to the sMRI, FDG-PET, to increase the data set. The applied transformations were implemented using the PyTorch ‘transforms’ module, which provides a range of image manipulation. The following transformations were used: rotates the image by a degree between -45 and +45 degrees, flips the image horizontally at random with a probability of 0.5, and randomly flips the image vertically with a probability of 0.5.
 
 ### 4.6. Application of deep learning using MViT
 
@@ -298,16 +298,16 @@ Finally, the sensitivity, specificity, and accuracy of the model in predicting t
 
 The Neural Architecture Search (NAS) uses a search strategy to find the next architecture to be evaluated, and an evaluation strategy to assess its performance [[66]](#br0660), [[67]](#br0670). Formally, NAS problem can be defined as follows:
 
-minimizeA∈AL(A;Dtrain)subject toL(A;Dval)≤ϵ,Cost(A)≤κ, | (5)  
----|---  
+(5)  
+---  
   
-Here: _A_ represents the architecture of the neural network. A is the search space for all possible architectures. L(A;Dtrain) is the loss function that measures the performance of architecture _A_ in the training data set Dtrain L(A;Dval) is the loss function that measures the performance of architecture _A_ in the validation data set Dval _ϵ_ is the maximum allowable validation loss. Cost(A) is a function that measures the computational cost of architecture _A_. _κ_ is the maximum computational cost allowable. The goal of NAS is to find an architecture _A_ that minimizes training loss, while also ensuring that validation loss and computational cost do not exceed their respective thresholds.
+Here: _A_ represents the architecture of the neural network. is the search space for all possible architectures. is the loss function that measures the performance of architecture _A_ in the training data set is the loss function that measures the performance of architecture _A_ in the validation data set _ϵ_ is the maximum allowable validation loss. is a function that measures the computational cost of architecture _A_. _κ_ is the maximum computational cost allowable. The goal of NAS is to find an architecture _A_ that minimizes training loss, while also ensuring that validation loss and computational cost do not exceed their respective thresholds.
 
 ### 4.8. Pareto-optimal QDO algorithm
 
 Pareto-Optimal QDO Algorithm refers to an optimization algorithm that uses principles of quantum computing and Pareto optimality. Quantum computing leverages quantum bits (qubits) to perform computations, potentially offering exponential speed-up for certain tasks [[68]](#br0680). Pareto optimality, on the other hand, is a concept in multi-objective optimization where a solution is considered Pareto optimal if there is no other solution that can improve one objective without worsening at least one other objective [[69]](#br0690).
 
-The {(QDO) [[70]](#br0700), is an iterative optimization algorithm based on a quantum dynamic process. The pseudocode of the algorithm is presented in [Algorithm 1](#fg0040). Here, the population _P_ consists of _N_ individuals, each representing a potential solution. The fitness fi of an individual _i_ is evaluated and the best solution Pbest is updated if fi is better. The velocity vi of each individual is updated using a quantum dynamic equation, which is not specified here because it would depend on the specific implementation of the QDO algorithm. The position xi of each individual is updated by adding the velocity to the current position. Gaussian sampling is applied to xi to introduce randomness and promote exploration of the search space. The position xi is discretized using a threshold function to convert the continuous position into a discrete solution. The worst individual in the population is replaced by the mean of the population to maintain diversity and avoid premature convergence. The algorithm continues until a termination condition is met, such as reaching a maximum number of iterations or achieving a desired level of fitness. The best solution found is then returned.
+The {(QDO) [[70]](#br0700), is an iterative optimization algorithm based on a quantum dynamic process. The pseudocode of the algorithm is presented in [Algorithm 1](#fg0040). Here, the population _P_ consists of _N_ individuals, each representing a potential solution. The fitness of an individual _i_ is evaluated and the best solution is updated if is better. The velocity of each individual is updated using a quantum dynamic equation, which is not specified here because it would depend on the specific implementation of the QDO algorithm. The position of each individual is updated by adding the velocity to the current position. Gaussian sampling is applied to to introduce randomness and promote exploration of the search space. The position is discretized using a threshold function to convert the continuous position into a discrete solution. The worst individual in the population is replaced by the mean of the population to maintain diversity and avoid premature convergence. The algorithm continues until a termination condition is met, such as reaching a maximum number of iterations or achieving a desired level of fitness. The best solution found is then returned.
 
 #### Algorithm 1.
 
@@ -317,69 +317,69 @@ Quantum Dynamic Optimization Algorithm.
 
 A quantum dynamic equation used in the QDO algorithm is a simplified version of the Schrödinger equation [[71]](#br0710), which is a fundamental equation in quantum mechanics:
 
-zħ∂∂tΨ(r,t)=[−ħ22m∇2+V(r,t)]Ψ(r,t) | (6)  
----|---  
+(6)  
+---  
   
 here
 
   * •
 
- _z_ is the imaginary unit, which is defined as z=−1.
+ _z_ is the imaginary unit, which is defined as .
 
   * •
 
- _ħ_ is the reduced Planck constant, which is a fundamental constant in quantum mechanics. It is related to the Planck's constant _h_ by ħ=h2π.
+ _ħ_ is the reduced Planck constant, which is a fundamental constant in quantum mechanics. It is related to the Planck's constant _h_ by .
 
   * •
 
-∂∂t is the partial derivative with respect to time _t_. This operator is used to calculate the rate of change of the wave function with respect to time.
+is the partial derivative with respect to time _t_. This operator is used to calculate the rate of change of the wave function with respect to time.
 
   * •
 
-Ψ(r,t) is the wave function of the system, which is a function of position **r** and time _t_. The wave function contains all the information about the state of a quantum system.
+is the wave function of the system, which is a function of position **r** and time _t_. The wave function contains all the information about the state of a quantum system.
 
   * •
 
-−ħ22m∇2 is the kinetic energy operator, where _m_ is the mass of the particle and ∇2 is the Laplacian operator. The Laplacian operator is a differential operator that calculates the divergence of the gradient of a function.
+is the kinetic energy operator, where _m_ is the mass of the particle and is the Laplacian operator. The Laplacian operator is a differential operator that calculates the divergence of the gradient of a function.
 
   * •
 
-V(r,t) is the potential energy, which can depend on position **r** and time _t_. The potential energy represents the energy caused by the position of the particle in a potential field.
+is the potential energy, which can depend on position **r** and time _t_. The potential energy represents the energy caused by the position of the particle in a potential field.
 
 
 
 
-Equation [(6)](#fm0060) describes how the wave function of a quantum system evolves over time. In the context of a QDO algorithm, the wave function could represent the state of the optimization problem, and the potential energy could represent the fitness function. The algorithm would then use this equation to update the state of the system in each iteration, with the goal of finding the state that minimizes the fitness function. In a QDO, these variables would be interpreted as follows: The wave function Ψ(r,t) represents the state of the optimization problem. The potential energy V(r,t) represents the fitness function of the optimization problem. The kinetic energy operator represents the exploration of the search space. The time evolution of the wave function represents the iterative process of the optimization algorithm.
+Equation [(6)](#fm0060) describes how the wave function of a quantum system evolves over time. In the context of a QDO algorithm, the wave function could represent the state of the optimization problem, and the potential energy could represent the fitness function. The algorithm would then use this equation to update the state of the system in each iteration, with the goal of finding the state that minimizes the fitness function. In a QDO, these variables would be interpreted as follows: The wave function represents the state of the optimization problem. The potential energy represents the fitness function of the optimization problem. The kinetic energy operator represents the exploration of the search space. The time evolution of the wave function represents the iterative process of the optimization algorithm.
 
 ### 4.9. Pareto-optimality of QDO algorithm
 
 In the context of the QDO Algorithm, Pareto-optimality could be used to guide the search process when there are multiple conflicting objectives to optimize. For example, in a neural architecture search problem, one might want to minimize both the prediction error and the complexity of the neural network architecture. These two objectives are typically conflicting, as reducing the prediction error often requires more complex architectures, while reducing the complexity often leads to higher prediction error. The QDO algorithm can be adapted to handle such multi-objective problems by maintaining a population of solutions and using Pareto dominance to guide the selection of solutions. Specifically, a solution for reproduction would be selected if it is not dominated by any other solution population in terms of all objectives.
 
-A solution x⁎ is Pareto-optimal if there does not exist another solution _x_ such that fi(x)≤fi(x⁎) for all objectives _i_ and fj(x)<fj(x⁎) for at least one objective _j_ , where fi(x) is the value of the _i_ -th objective function at solution _x_. Here:
+A solution is Pareto-optimal if there does not exist another solution _x_ such that for all objectives _i_ and for at least one objective _j_ , where is the value of the _i_ -th objective function at solution _x_. Here:
 
   * •
 
-x⁎ is a potential Pareto-optimal solution. This is a solution that we are considering as a candidate for Pareto-optimality.
+is a potential Pareto-optimal solution. This is a solution that we are considering as a candidate for Pareto-optimality.
 
   * •
 
- _x_ is another solution. This is a solution that we compare with the candidate solution x⁎.
+ _x_ is another solution. This is a solution that we compare with the candidate solution .
 
   * •
 
-fi(x) is the value of the _i_ -th objective function at solution _x_. This represents the performance of solution _x_ with respect to the _i_ -th objective.
+is the value of the _i_ -th objective function at solution _x_. This represents the performance of solution _x_ with respect to the _i_ -th objective.
 
   * •
 
-The inequality fi(x)≤fi(x⁎) means that the _i_ -th objective value of solution _x_ is not worse than that of solution x⁎. In other words, solution _x_ does not perform worse than solution x⁎ with respect to the _i_ -th objective.
+The inequality means that the _i_ -th objective value of solution _x_ is not worse than that of solution . In other words, solution _x_ does not perform worse than solution with respect to the _i_ -th objective.
 
   * •
 
-The inequality fj(x)<fj(x⁎) means that the _j_ -th objective value of solution _x_ is better than that of solution x⁎. In other words, solution _x_ performs better than solution x⁎ with respect to at least one objective.
+The inequality means that the _j_ -th objective value of solution _x_ is better than that of solution . In other words, solution _x_ performs better than solution with respect to at least one objective.
 
   * •
 
-If both of the above conditions are met, then solution x⁎ is not Pareto-optimal, because there exists another solution _x_ that performs equally well or better in all objectives and better in at least one objective. If no such solution _x_ exists, then solution x⁎ is Pareto-optimal.
+If both of the above conditions are met, then solution is not Pareto-optimal, because there exists another solution _x_ that performs equally well or better in all objectives and better in at least one objective. If no such solution _x_ exists, then solution is Pareto-optimal.
 
 
 

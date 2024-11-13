@@ -13,8 +13,8 @@ import math
 import datetime
 import urllib.error
 
-from crawler_crawl4AI import crawl_crawl4ai
-from utils.text_processor_crawl4ai import extract_abstract_discussion_conclusion
+# from crawler_crawl4AI import crawl_crawl4ai
+# from utils.text_processor_crawl4ai import extract_abstract_discussion_conclusion
 
 max_threads = 20
 max_retries = 5
@@ -257,7 +257,7 @@ class pubmed_record:
             df_paper_info = pd.concat(
                 [df_paper_info, records[0]], ignore_index=True)
 
-        df_paper_info.to_csv(output_dir + "/crawl_summary_" +
+        df_paper_info.to_csv(output_dir + "/pubmed_search_summary_" +
                              time.strftime("%Y_%m_%d_%H_%M_%S") + ".csv", index=False)
 
         t1 = time.time()
